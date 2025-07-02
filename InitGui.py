@@ -25,7 +25,7 @@ class PipingSupportShowCommand:
     def Activated(self):
         try:
           import PipingSupport
-          PipingSuport.main.w.show()
+          PipingSupport.main.w.show()
         except Exception as e:
           FreeCAD.Console.PrintError(str(e) + "\n")
         

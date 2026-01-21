@@ -33,7 +33,7 @@ class Ui_Dialog(object):
         #形式
         self.label = QtGui.QLabel('形式',Dialog)
         self.label.setGeometry(QtCore.QRect(10, 0, 81, 22))
-        self.label.setStyleSheet("color: black;")
+        self.label.setStyleSheet("color: gray;")
         self.comboBox = QtGui.QComboBox(Dialog)
         self.comboBox.setGeometry(QtCore.QRect(100, 0, 100, 20))
         self.comboBox.setObjectName("comboBox")
@@ -131,8 +131,8 @@ class Ui_Dialog(object):
             elif key1==1:#笠木
                 katakou_size=psuport_data.channel_ss_size
 
-        self.comboBox_4.clear()
-        self.comboBox_4.addItems(katakou_size)
+        #self.comboBox_3.clear()
+        #self.comboBox_3.addItems(katakou_size)
     def create(self):
         if key==0:#S01
             if key1==0: #アングル
@@ -187,7 +187,22 @@ class Ui_Dialog(object):
             joined_path = os.path.join(base, 'pspt_data',fname) 
             Gui.ActiveDocument.mergeProject(joined_path) 
         except:
-            pass       
+            pass 
+
+        doc = App.ActiveDocument
+
+        last_part = next((obj for obj in reversed(doc.Objects) if obj.TypeId == "App::Part"), None)
+        if last_part:
+             Gui.Selection.clearSelection()
+             Gui.Selection.addSelection(doc.Name, last_part.Name)
+             #print("最後の Part:", last_part.Name)
+        else:
+            pass
+        
+        Gui.activateWorkbench("DraftWorkbench")
+        Gui.Selection.addSelection(last_part)
+        Gui.runCommand('Draft_Move',0) 
+
 class main():
         w = QtGui.QWidget()
         w.ui = Ui_Dialog()
